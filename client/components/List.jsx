@@ -10,6 +10,17 @@ class List extends React.Component {
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchTodos = this.fetchTodos.bind(this);
+  }
+  fetchTodos() {
+    axios
+      .get("/api/groceryList")
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   handleInput(e) {
     this.setState({
@@ -21,17 +32,18 @@ class List extends React.Component {
     axios
       .post("/api/groceryList", { todo: this.state.todo })
       .then(() => {
-        console.log("saved onto db");
+        this.fetchTodos();
       })
       .catch(err => {
         console.log(err);
       });
+    document.getElementById("form").reset();
   }
   render() {
     return (
       <div>
         <h1>Todos</h1>
-        <form onSubmit={e => this.handleSubmit(e)}>
+        <form id="form" onSubmit={e => this.handleSubmit(e)}>
           Todo: <input type="text" name="todo" onKeyUp={this.handleInput} />
         </form>
       </div>
