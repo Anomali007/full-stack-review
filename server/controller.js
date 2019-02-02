@@ -2,12 +2,42 @@ const db = require("../database/model.js");
 
 module.exports = {
   get: (req, res) => {
-    console.log("IN GET");
+    db.GroceryList.find({}, (err, todos) => {
+      if (err) {
+        res.status(404).end();
+      } else {
+        res.status(200).send(todos);
+      }
+    });
   },
   post: (req, res) => {
-    console.log("IN POST");
+    const { todo } = req.body;
+    db.GroceryList.create(
+      {
+        todo: todo
+      },
+      err => {
+        if (err) {
+          res.status(404).end();
+        } else {
+          res.status(200).end();
+        }
+      }
+    );
   },
   delete: (req, res) => {
-    console.log("IN DELETE");
+    const { id } = req.query;
+    db.GroceryList.deleteOne(
+      {
+        _id: id
+      },
+      err => {
+        if (err) {
+          res.status(404).end();
+        } else {
+          res.status(200).end();
+        }
+      }
+    );
   }
 };
