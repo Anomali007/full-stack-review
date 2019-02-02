@@ -16,7 +16,9 @@ class List extends React.Component {
     axios
       .get("/api/groceryList")
       .then(data => {
-        console.log(data);
+        this.setState({
+          todos: data.data
+        });
       })
       .catch(err => {
         console.log(err);
