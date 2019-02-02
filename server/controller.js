@@ -1,3 +1,5 @@
+const db = require("../database/model.js");
+
 module.exports = {
   get: (req, res) => {
     console.log("IN GET");

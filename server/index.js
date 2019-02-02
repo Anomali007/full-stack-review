@@ -3,6 +3,7 @@ const parser = require("body-parser");
 const path = require("path");
 const PORT = 3000;
 const routes = require("./routes.js");
+const db = require("../database/index.js");
 
 const app = express();
 
