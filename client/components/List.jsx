@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import ListEntry from "./ListEntry";
 
 class List extends React.Component {
   constructor(props) {
@@ -11,6 +12,10 @@ class List extends React.Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchTodos = this.fetchTodos.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
+  }
+  componentDidMount() {
+    this.fetchTodos();
   }
   fetchTodos() {
     axios
@@ -41,6 +46,16 @@ class List extends React.Component {
       });
     document.getElementById("form").reset();
   }
+  deleteTodo(id) {
+    axios
+      .delete("/api/groceryList", { params: { id } })
+      .then(() => {
+        this.fetchTodos();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   render() {
     return (
       <div>
@@ -48,6 +63,9 @@ class List extends React.Component {
         <form id="form" onSubmit={e => this.handleSubmit(e)}>
           Todo: <input type="text" name="todo" onKeyUp={this.handleInput} />
         </form>
+        {this.state.todos.map(entry => (
+          <ListEntry entry={entry} deleteTodo={this.deleteTodo} />
+        ))}
       </div>
     );
   }
